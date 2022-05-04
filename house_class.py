@@ -14,7 +14,7 @@ class House():
             self.lord = ""
         else:
             print(defaultValues)
-            self.name = defaultValues['name']
+            self.name = defaultValues.name
             self.sigil = defaultValues['sigil']
             self.seat = defaultValues['seat']
             self.lord = defaultValues['lord']
@@ -30,26 +30,21 @@ class House():
         return houseDict
     def save(self):
         isEmpty = os.stat(houseDataListFile).st_size == 0
-        houseDict = []
-
-        toSave = self.__dict__
-
-        houseDict.append(toSave)
-
+        newHouse = {}
+        newHouse[self.name] = self.__dict__
+        list = []
         if isEmpty:
+            list.append(newHouse)
             with open(houseDataListFile, "w") as fp:
-                json.dump(houseDict, fp)
+                json.dump(list, fp)
+            print('----------------firstlist-----------------')
+            print(list)
         else:
 
             with open(houseDataListFile) as data_file:
                 list = json.load(data_file)
 
-            print('------------old list-------------------')
-            print(list)
-            #newList = oldList
-            list.append(houseDict)
-
-            #print(newList)
+            list.append(newHouse)
 
             with open(houseDataListFile, "w") as fp:
                 json.dump(list, fp)
@@ -64,11 +59,13 @@ def importHouses():
     else:
         fileObject = open("house_data.json", "r")
         jsonContent = fileObject.read()
-        houseList = json.loads(jsonContent)
+        houseList = json.load(fileObject)
         newList = []
-        for houses in houseList:
-            print(houses)
-            importHouse = House(houses)
+        print('-------------------')
+        print(houseList)
+        for houseData in houseList:
+            print(houseData)
+            importHouse = House(houseData)
             newList.append(importHouse)
 
         return newList

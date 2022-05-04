@@ -1,3 +1,4 @@
+from collections import namedtuple
 from email.policy import default
 import json
 import os
@@ -13,8 +14,9 @@ class House():
             self.seat = ""
             self.lord = ""
         else:
+            print('creating obj')
             print(defaultValues)
-            self.name = defaultValues.name
+            self.name = defaultValues['name']
             self.sigil = defaultValues['sigil']
             self.seat = defaultValues['seat']
             self.lord = defaultValues['lord']
@@ -30,8 +32,8 @@ class House():
         return houseDict
     def save(self):
         isEmpty = os.stat(houseDataListFile).st_size == 0
-        newHouse = {}
-        newHouse[self.name] = self.__dict__
+        print(self)
+        newHouse = self.__dict__
         list = []
         if isEmpty:
             list.append(newHouse)
@@ -59,13 +61,10 @@ def importHouses():
     else:
         fileObject = open("house_data.json", "r")
         jsonContent = fileObject.read()
-        houseList = json.load(fileObject)
+        houseList = json.loads(jsonContent)
         newList = []
         print('-------------------')
-        print(houseList)
         for houseData in houseList:
-            print(houseData)
-            importHouse = House(houseData)
-            newList.append(importHouse)
-
+            newHouse = House(houseData)
+            newList.append(newHouse)
         return newList

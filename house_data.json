@@ -1,1 +1,1 @@
-[{"f": {"name": "f", "sigil": "f", "seat": "f", "lord": "f"}}, {"g": {"name": "g", "sigil": "g", "seat": "g", "lord": "g"}}]
+[{"name": "stark", "sigil": "s", "seat": "s", "lord": "s"}, {"name": "lannister", "sigil": "l", "seat": "l", "lord": "l"}, {"name": "vincent", "sigil": "v", "seat": "v", "lord": "v"}, {"name": "baylor", "sigil": "b", "seat": "b", "lord": "b"}]

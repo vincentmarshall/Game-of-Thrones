@@ -4,9 +4,11 @@ houseList = []
 
 houseDataListFile = 'house_data.json'
 
-#houseList = house_class.importHouses()
+houseList = house_class.importHouses()
 print("current house list")
-#print(houseList)
+print(houseList)
+
+
 
 print("Welcome to Game of Thrones Character Simulator!")
 

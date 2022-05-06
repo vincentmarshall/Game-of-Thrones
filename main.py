@@ -1,6 +1,8 @@
 import house_class
+import character_class
 
 houseList = house_class.importHouses()
+characterList = character_class.importCharacters()
 
 class bcolors:
     HEADER = '\033[95m'
@@ -41,13 +43,29 @@ def MainMenu():
         if option == 1:
             result = RetrieveHouseNames()
 
-            print(f'{bcolors.BOLD}Current Houses:{bcolors.ENDC}')
-            for names in result:
-                print(names.title())
+
+            if result != None:
+                print(f'{bcolors.BOLD}Current Houses:{bcolors.ENDC}')
+
+                for names in result:
+                    print(names.title())
             
-            option = None
+                option = None
+            else:
+                print(f'{bcolors.BOLD}There are no houses created yet.{bcolors.ENDC}')
+
         if option == 2:
-            print()
+            result = RetrieveCharacterNames()
+
+
+            if result != None:
+                print(f'{bcolors.BOLD}Current Characters:{bcolors.ENDC}')
+
+                for names in result:
+                    print(names.title())
+            else:
+                print(f'{bcolors.BOLD}There are no characters created yet.{bcolors.ENDC}')
+
         if option == 3:
             CreateHouse()
 
@@ -55,15 +73,22 @@ def MainMenu():
 
     
 def RetrieveHouseNames():
-    if houseList == None:
-        returnMessage = "There are no houses created yet."
-    else:
+    returnMessage = None
+    if houseList != None:
         returnMessage = []
         for house in houseList:
             returnMessage.append(house.name)
 
     return returnMessage
+    
+def RetrieveCharacterNames():
+    returnMessage = None
+    if characterList != None:
+        returnMessage = []
+        for character in characterList:
+            returnMessage.append(character.name)
 
+    return returnMessage
 # def CreateHousePrompt():
 
 #     print("Would you like to create a house?")

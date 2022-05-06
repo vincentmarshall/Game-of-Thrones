@@ -26,6 +26,7 @@ class House():
     def toDict(self):
         houseDict = self.__dict__
         return houseDict
+    
     def save(self):
         isEmpty = os.stat(houseDataListFile).st_size == 0
         newHouse = self.__dict__

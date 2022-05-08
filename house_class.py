@@ -21,20 +21,23 @@ class House():
         self.sigil = sigil
         self.seat = seat
         self.lord = lord
-    def changeName(self, newName):
-        self.name = newName
+    def changeValue(self, changeVal, newVal):
+        self.chnageVal = newVal
+        self.save()
     def toDict(self):
         houseDict = self.__dict__
         return houseDict
     
-    def save(self):
+    def save(self, shouldUpdate):
+        print("updating?")
+        print(shouldUpdate)
         isEmpty = os.stat(houseDataListFile).st_size == 0
         newHouse = self.__dict__
         list = []
         if isEmpty:
             list.append(newHouse)
             with open(houseDataListFile, "w") as fp:
-                json.dump(list, fp)
+                json.dump(list, fp, indent=4)
         else:
 
             with open(houseDataListFile) as data_file:
@@ -43,7 +46,7 @@ class House():
             list.append(newHouse)
 
             with open(houseDataListFile, "w") as fp:
-                json.dump(list, fp)
+                json.dump(list, fp, indent=4)
             print('House Saved')
 
 def importHouses():

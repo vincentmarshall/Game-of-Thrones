@@ -27,9 +27,12 @@ def MainMenu():
         print(f'{bcolors.BOLD}What would you like to do?\n{bcolors.ENDC}')
 
         print(f'{bcolors.OKGREEN}[1] Display Noble Houses{bcolors.ENDC}')
-        print(f'{bcolors.FAIL}[2] Display Characters{bcolors.ENDC}')
+        print(f'{bcolors.OKGREEN}[2] Display Characters{bcolors.ENDC}')
         print(f'{bcolors.OKGREEN}[3] Create Noble House{bcolors.ENDC}')
-        print(f'{bcolors.FAIL}[4] Create Character{bcolors.ENDC}')
+        print(f'{bcolors.OKGREEN}[4] Create Character{bcolors.ENDC}')
+        print(f'{bcolors.OKGREEN}[5] Edit House{bcolors.ENDC}')
+        print(f'{bcolors.OKGREEN}[5] Edit Character{bcolors.ENDC}')
+
 
         print('\n')
         print(f'{bcolors.OKGREEN}[0] Exit{bcolors.ENDC}')
@@ -72,14 +75,22 @@ def MainMenu():
 
 
         if option == 3:
-             newHouse = CreateHouse()
-             houseList.append(newHouse)
-             option = None
+            newHouse = CreateHouse()
+            if houseList:
+                houseList.append(newHouse)
+            else:
+                houseList = []
+                houseList.append(newHouse)
+            option = None
 
         if option == 4:
             newChar = CreateCharacter()
             characterList.append(newChar)
             option = None
+
+        if option == 5:
+
+            EditHouse()
 
 
 
@@ -117,6 +128,12 @@ def CreateHouse():
     print(f'{bcolors.BOLD}Please enter a house name to create. {bcolors.ENDC}')
     houseName = input()
 
+    if houseList:
+        for house in houseList:
+            if (house.name.title() == houseName.title()):
+                print('House ' + houseName + ' already exists, please choose another name.')
+                CreateHouse()
+
     print(f"{bcolors.BOLD}Creating house " + houseName + " {bcolors.ENDC}")
 
     print(f"{bcolors.BOLD}What is house " + houseName + "'s sigil? {bcolors.ENDC}")
@@ -133,9 +150,9 @@ def CreateHouse():
     newHouse.seat = houseSeat
     newHouse.lord = houseLord
 
-    newHouse.save()
+    newHouse.save(False)
 
-    MainMenu()
+    return newHouse
 
 def CreateCharacter():
     print("Creating Character")
@@ -158,16 +175,42 @@ def CreateCharacter():
     newCharacter.allegiance = allegiance
     newCharacter.title = title
 
-    newCharacter.save()
+    newCharacter.save(update)
 
     return newCharacter
+
+def EditHouse():
+
+    index = 1
+    option = None
+
+    print('Which house would you like to edit?')
+    for house in houseList:
+        print('[' + str(index) + '] ' + house.name)
+        index = index + 1
+
+    index = 1
+
+    option = int(input())
+    optionList = []
+
+    houseEdit = houseList[option - 1]
+
+    print('What would you like to edit of house ' + houseEdit.name + '?')
+    for value in vars(houseEdit):
+        print('[' + str(index) + '] ' + value.title())
+        optionList.append(value.title())
+        index = index + 1
+
+    toChange = int(input()) - 1
+
+    newName = input("Enter new " + optionList[toChange] + " for house " + houseEdit.name + "\n")
+
+    houseObj = [item for item in houseList if item.name == houseEdit.name]
+    print(houseObj[0])
+    houseObj[0].changeValue(optionList[toChange], newName)
+    print('house updated')
 
 
 
 MainMenu()
-
-
-
-
-
-

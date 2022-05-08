@@ -41,8 +41,8 @@ def MainMenu():
         if option == 0:
             quit()
         if option == 1:
-            result = RetrieveHouseNames()
 
+            result = RetrieveHouseNames()
 
             if result != None:
                 print(f'{bcolors.BOLD}Current Houses:{bcolors.ENDC}')
@@ -50,13 +50,15 @@ def MainMenu():
                 for names in result:
                     print(names.title())
             
-                option = None
             else:
                 print(f'{bcolors.BOLD}There are no houses created yet.{bcolors.ENDC}')
 
-        if option == 2:
-            result = RetrieveCharacterNames()
+            option = None
 
+
+        if option == 2:
+
+            result = RetrieveCharacterNames()
 
             if result != None:
                 print(f'{bcolors.BOLD}Current Characters:{bcolors.ENDC}')
@@ -66,8 +68,18 @@ def MainMenu():
             else:
                 print(f'{bcolors.BOLD}There are no characters created yet.{bcolors.ENDC}')
 
+            option = None
+
+
         if option == 3:
-            CreateHouse()
+             newHouse = CreateHouse()
+             houseList.append(newHouse)
+             option = None
+
+        if option == 4:
+            newChar = CreateCharacter()
+            characterList.append(newChar)
+            option = None
 
 
 
@@ -125,7 +137,30 @@ def CreateHouse():
 
     MainMenu()
 
+def CreateCharacter():
+    print("Creating Character")
+    
+    newCharacter = character_class.Character()
 
+    print(f'{bcolors.BOLD}What is your characters name? {bcolors.ENDC}')
+    name = input()
+
+    print(f'{bcolors.BOLD}Creating ' + name + '{bcolors.ENDC}')
+
+    print(f"{bcolors.BOLD}Where is " + name + "'s allegiance? {bcolors.ENDC}")
+    allegiance = input()
+
+    print(f'{bcolors.BOLD}What title does ' + name + ' hold? {bcolors.ENDC}')
+    title = input()
+
+
+    newCharacter.name = name
+    newCharacter.allegiance = allegiance
+    newCharacter.title = title
+
+    newCharacter.save()
+
+    return newCharacter
 
 
 

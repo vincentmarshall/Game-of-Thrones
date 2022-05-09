@@ -22,15 +22,13 @@ class House():
         self.seat = seat
         self.lord = lord
     def changeValue(self, changeVal, newVal):
-        self.chnageVal = newVal
-        self.save()
+        ####self.chnageVal = getattr()
+        self.update()
     def toDict(self):
         houseDict = self.__dict__
         return houseDict
     
-    def save(self, shouldUpdate):
-        print("updating?")
-        print(shouldUpdate)
+    def save(self):
         isEmpty = os.stat(houseDataListFile).st_size == 0
         newHouse = self.__dict__
         list = []
@@ -48,6 +46,16 @@ class House():
             with open(houseDataListFile, "w") as fp:
                 json.dump(list, fp, indent=4)
             print('House Saved')
+    def update(self):
+        print('updating obj')
+        print(vars(self))
+        with open(houseDataListFile) as data_file:
+            list = json.load(data_file)
+        dictObj = next((i for i, house in enumerate(list) if house['name'] == self.name), None)
+        dictObj = list[dictObj]
+        print(dictObj['name'])
+        #print(list)
+    
 
 def importHouses():
     print('Importing Houses')

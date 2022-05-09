@@ -175,7 +175,7 @@ def CreateCharacter():
     newCharacter.allegiance = allegiance
     newCharacter.title = title
 
-    newCharacter.save(update)
+    newCharacter.save()
 
     return newCharacter
 

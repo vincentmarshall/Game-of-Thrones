@@ -77,3 +77,4 @@ def importHouses():
             newHouse = House(houseData)
             newList.append(newHouse)
         return newList
+

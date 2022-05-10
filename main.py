@@ -21,7 +21,9 @@ print(f'{bcolors.HEADER}------Welcome to Game of Thrones Character Simulator!---
 
 def MainMenu():
     global houseList
+    global characterList
     option = None
+
     while option == None:
 
         print(f'{bcolors.BOLD}What would you like to do?\n{bcolors.ENDC}')
@@ -60,7 +62,6 @@ def MainMenu():
 
 
         if option == 2:
-
             result = RetrieveCharacterNames()
 
             if result != None:
@@ -100,6 +101,7 @@ def MainMenu():
             success = EditCharacter()
             if success:
                 characterList = character_class.importCharacters()
+
             option = None
 
 

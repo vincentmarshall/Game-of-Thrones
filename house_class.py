@@ -1,30 +1,26 @@
+from errno import ESTALE
 import json
 import os
+import string
 
 houseDataListFile = 'house_data.json'
 
 class House():
 
+    #Core House functions
     def __init__(self, defaultValues = None):
         if defaultValues is None:
             self.name = ""
             self.sigil = ""
             self.seat = ""
             self.lord = ""
+            self.members = []
         else:
             self.name = defaultValues['name']
             self.sigil = defaultValues['sigil']
             self.seat = defaultValues['seat']
             self.lord = defaultValues['lord']
-    def changeAll(self, name, sigil, seat, lord):
-        self.name = name
-        self.sigil = sigil
-        self.seat = seat
-        self.lord = lord
-    def toDict(self):
-        houseDict = self.__dict__
-        return houseDict
-    
+            self.members = defaultValues['members']
     def save(self):
         isEmpty = os.stat(houseDataListFile).st_size == 0
         newHouse = self.__dict__
@@ -61,7 +57,28 @@ class House():
             json.dump(list, fp, indent=4)
 
         return True
+
+    #Supplementary House functions
+    def updateMembers(self, memberName: string, remove: bool):
+        with open(houseDataListFile) as data_file:
+            list = json.load(data_file)
+        
+        if remove:
+            print("removing is not set up yet")
+        else:
+            memberList = self.members
+            memberList.append(memberName)
+
+        for value in list:
+            if value['name'] == self.name:
+
+                value['members'] = memberList
+
+                print(memberName.title() + " added to house " + self.name)
+                break
     
+        with open(houseDataListFile, 'w') as fp:
+            json.dump(list, fp, indent=4)
 
 def importHouses():
     isEmpty = os.stat(houseDataListFile).st_size == 0

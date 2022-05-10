@@ -1,14 +1,16 @@
 [
     {
         "name": "Stark",
-        "sigil": "Direwolf",
-        "seat": "Winterfell",
-        "lord": "Sansa"
+        "sigil": "dsfgfd",
+        "seat": "dfhd",
+        "lord": "dfgd",
+        "members": []
     },
     {
         "name": "Lannister",
         "sigil": "Golden Lion",
         "seat": "Casterley Rock",
-        "lord": "Tyrion"
+        "lord": "Tyrion",
+        "members": []
     }
 ]

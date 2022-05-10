@@ -5,6 +5,7 @@ characterDataListFile = 'character_data.json'
 
 class Character():
 
+    #Core Character Functions
     def __init__(self, defaultValues = None):
         if defaultValues is None:
             self.name = ""
@@ -14,15 +15,6 @@ class Character():
             self.name = defaultValues['name']
             self.allegiance = defaultValues['allegiance']
             self.title = defaultValues['title']
-    def changeAll(self, name, allegiance, title):
-        self.name = name
-        self.allegiance = allegiance
-        self.title = title
-    def changeName(self, newName):
-        self.name = newName
-    def toDict(self):
-        characterDict = self.__dict__
-        return characterDict
     def save(self):
         isEmpty = os.stat(characterDataListFile).st_size == 0
         newCharacter = self.__dict__
@@ -30,7 +22,7 @@ class Character():
         if isEmpty:
             list.append(newCharacter)
             with open(characterDataListFile, "w") as fp:
-                json.dump(list, fp)
+                json.dump(list, fp, indent=4)
         else:
 
             with open(characterDataListFile) as data_file:
@@ -39,14 +31,13 @@ class Character():
             list.append(newCharacter)
 
             with open(characterDataListFile, "w") as fp:
-                json.dump(list, fp)
-            print('character Saved')
+                json.dump(list, fp, indent=4)
     def update(self, changeVal, newVal):
         changeVal = changeVal.lower()
         toChange = getattr(self, changeVal)
         with open(characterDataListFile) as data_file:
             list = json.load(data_file)
-            
+
         for index, value in enumerate(list):
             if value[changeVal] == toChange:
                 dictIndex = index
@@ -59,6 +50,9 @@ class Character():
             json.dump(list, fp, indent=4)
 
         return True
+
+    #Supplementary Character Functions
+
     
 def importCharacters():
     print('Importing Characters')

@@ -155,32 +155,39 @@ def CreateHouse():
     newHouse.seat = houseSeat
     newHouse.lord = houseLord
 
-    newHouse.save(False)
+    newHouse.save()
 
     return newHouse
 
 def CreateCharacter():
     print("Creating Character")
-    
     newCharacter = character_class.Character()
 
     print(f'{bcolors.BOLD}What is your characters name? {bcolors.ENDC}')
     name = input()
+    print(name)
 
     print(f'{bcolors.BOLD}Creating ' + name + '{bcolors.ENDC}')
 
-    print(f"{bcolors.BOLD}Where is " + name + "'s allegiance? {bcolors.ENDC}")
-    allegiance = input()
+    nameSplit = name.split()
+    lastName = nameSplit[1].title()
+    for house in houseList:
+        if house.name == lastName:
+            houseObj = house
+            break
+    if not houseObj:
+        print("No house exits for the character being created.")
 
     print(f'{bcolors.BOLD}What title does ' + name + ' hold? {bcolors.ENDC}')
     title = input()
 
 
     newCharacter.name = name
-    newCharacter.allegiance = allegiance
     newCharacter.title = title
 
     newCharacter.save()
+
+    houseObj.updateMembers(newCharacter.name, False)
 
     return newCharacter
 

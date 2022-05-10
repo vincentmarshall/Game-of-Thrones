@@ -12,5 +12,30 @@
         "seat": "Casterley Rock",
         "lord": "Tyrion",
         "members": []
+    },
+    {
+        "name": "Freelancers",
+        "sigil": "Nothing",
+        "seat": "Nowhere",
+        "lord": "Nobody",
+        "members": []
+    },
+    {
+        "name": "Snow",
+        "sigil": "nothing",
+        "seat": "nowhere",
+        "lord": "jon snow",
+        "members": [
+            "jon snow"
+        ]
+    },
+    {
+        "name": "Tully",
+        "sigil": "dont know",
+        "seat": "dont know",
+        "lord": "samwell tully",
+        "members": [
+            "samwell tully"
+        ]
     }
 ]

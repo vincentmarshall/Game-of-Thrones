@@ -126,29 +126,54 @@ def RetrieveCharacterNames():
 
     return returnMessage
 
-def CreateHouse():
+def CreateHouse(passedData=None):
 
-    newHouse = house_class.House()
+    if passedData:
+        print('autofilling data')
+        newHouse = house_class.House()
+    
+        houseName = passedData[0]
+        charName = passedData[1]
 
-    print(f'{bcolors.BOLD}Please enter a house name to create. {bcolors.ENDC}')
-    houseName = input()
+        print(f"{bcolors.BOLD}Creating house " + houseName + " {bcolors.ENDC}")
 
-    if houseList:
-        for house in houseList:
-            if (house.name.title() == houseName.title()):
-                print('House ' + houseName + ' already exists, please choose another name.')
-                CreateHouse()
+        print(f'{bcolors.BOLD}Is ' + charName + ' the Lord of house ' + houseName + '? {bcolors.ENDC}')
+        yesNo = input()
 
-    print(f"{bcolors.BOLD}Creating house " + houseName + " {bcolors.ENDC}")
+        if yesNo == 'yes' or yesNo == 'y':
+            houseLord = charName
+        else:
+            print(f'{bcolors.BOLD}Who is the Lord of house ' + houseName + '? {bcolors.ENDC}')
+            houseLord = input()
+        
+        print(f"{bcolors.BOLD}What is house " + houseName + "'s sigil? {bcolors.ENDC}")
+        houseSigil = input()
 
-    print(f"{bcolors.BOLD}What is house " + houseName + "'s sigil? {bcolors.ENDC}")
-    houseSigil = input()
+        print(f'{bcolors.BOLD}What seat does house ' + houseName + ' hold? {bcolors.ENDC}')
+        houseSeat = input()
+        
+    else:
+        newHouse = house_class.House()
 
-    print(f'{bcolors.BOLD}What seat does house ' + houseName + ' hold? {bcolors.ENDC}')
-    houseSeat = input()
+        print(f'{bcolors.BOLD}Please enter a house name to create. {bcolors.ENDC}')
+        houseName = input()
 
-    print(f'{bcolors.BOLD}Who is the Lord of house ' + houseName + '? {bcolors.ENDC}')
-    houseLord = input()
+        if houseList:
+            for house in houseList:
+                if (house.name.title() == houseName.title()):
+                    print('House ' + houseName + ' already exists, please choose another name.')
+                    CreateHouse()
+
+        print(f"{bcolors.BOLD}Creating house " + houseName + " {bcolors.ENDC}")
+
+        print(f"{bcolors.BOLD}What is house " + houseName + "'s sigil? {bcolors.ENDC}")
+        houseSigil = input()
+
+        print(f'{bcolors.BOLD}What seat does house ' + houseName + ' hold? {bcolors.ENDC}')
+        houseSeat = input()
+
+        print(f'{bcolors.BOLD}Who is the Lord of house ' + houseName + '? {bcolors.ENDC}')
+        houseLord = input()
 
     newHouse.name = houseName
     newHouse.sigil = houseSigil
@@ -161,22 +186,34 @@ def CreateHouse():
 
 def CreateCharacter():
     print("Creating Character")
+
+    houseObj = None
     newCharacter = character_class.Character()
 
     print(f'{bcolors.BOLD}What is your characters name? {bcolors.ENDC}')
     name = input()
-    print(name)
-
-    print(f'{bcolors.BOLD}Creating ' + name + '{bcolors.ENDC}')
 
     nameSplit = name.split()
     lastName = nameSplit[1].title()
+
     for house in houseList:
         if house.name == lastName:
             houseObj = house
             break
+
     if not houseObj:
         print("No house exits for the character being created.")
+        print("Would you like to create house " + lastName.title() + "?")
+        yesNo = input()
+        if yesNo == 'yes' or yesNo == 'y':
+            passData = [lastName, name]
+            houseObj = CreateHouse(passData)
+        else:
+            print(name + " will be assigned to freelancers")
+            for house in houseList:
+                if house.name == 'Freelancers':
+                    houseObj = house
+                    break
 
     print(f'{bcolors.BOLD}What title does ' + name + ' hold? {bcolors.ENDC}')
     title = input()

@@ -90,7 +90,11 @@ def MainMenu():
 
         if option == 5:
 
-            EditHouse()
+            success = EditHouse()
+            if success:
+                houseList = house_class.importHouses()
+            option = None
+
 
 
 
@@ -112,14 +116,6 @@ def RetrieveCharacterNames():
             returnMessage.append(character.name)
 
     return returnMessage
-# def CreateHousePrompt():
-
-#     print("Would you like to create a house?")
-#     yesNo = input().lower()
-#     if yesNo == "yes" or yesNo == "y":
-#         CreateHouse()
-#     else:
-#         CreateHousePrompt()
 
 def CreateHouse():
 
@@ -207,9 +203,15 @@ def EditHouse():
     newName = input("Enter new " + optionList[toChange] + " for house " + houseEdit.name + "\n")
 
     houseObj = [item for item in houseList if item.name == houseEdit.name]
-    print(houseObj[0])
-    houseObj[0].changeValue(optionList[toChange], newName)
-    print('house updated')
+
+    success = houseObj[0].update(optionList[toChange], newName)
+
+
+    print('House Updated')
+
+    return(success)
+
+    
 
 
 

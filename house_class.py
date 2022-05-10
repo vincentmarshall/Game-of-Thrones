@@ -45,10 +45,15 @@ class House():
             print('House Saved')
     def update(self, changeVal, newVal):
         changeVal = changeVal.lower()
+        toChange = getattr(self, changeVal)
         with open(houseDataListFile) as data_file:
             list = json.load(data_file)
-        dictObj = next((i for i, house in enumerate(list) if (house[changeVal] == getattr(self, changeVal), None)))
-        dictObj = list[dictObj]
+
+        for index, value in enumerate(list):
+            if value[changeVal] == toChange:
+                dictIndex = index
+                
+        dictObj = list[dictIndex]
         
         dictObj[changeVal] = newVal
 

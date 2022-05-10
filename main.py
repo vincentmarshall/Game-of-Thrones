@@ -31,7 +31,7 @@ def MainMenu():
         print(f'{bcolors.OKGREEN}[3] Create Noble House{bcolors.ENDC}')
         print(f'{bcolors.OKGREEN}[4] Create Character{bcolors.ENDC}')
         print(f'{bcolors.OKGREEN}[5] Edit House{bcolors.ENDC}')
-        print(f'{bcolors.OKGREEN}[5] Edit Character{bcolors.ENDC}')
+        print(f'{bcolors.OKGREEN}[6] Edit Character{bcolors.ENDC}')
 
 
         print('\n')
@@ -93,6 +93,13 @@ def MainMenu():
             success = EditHouse()
             if success:
                 houseList = house_class.importHouses()
+            option = None
+
+        if option == 6:
+
+            success = EditCharacter()
+            if success:
+                characterList = character_class.importCharacters()
             option = None
 
 
@@ -211,6 +218,41 @@ def EditHouse():
 
     return(success)
 
+def EditCharacter():
+
+    index = 1
+    option = None
+
+    print('Which character would you like to edit?')
+    for character in characterList:
+        print('[' + str(index) + '] ' + character.name)
+        index = index + 1
+
+    index = 1
+
+    option = int(input())
+    optionList = []
+
+    characterEdit = characterList[option - 1]
+
+    print('What would you like to edit of ' + characterEdit.name + '?')
+    for value in vars(characterEdit):
+        print('[' + str(index) + '] ' + value.title())
+        optionList.append(value.title())
+        index = index + 1
+
+    toChange = int(input()) - 1
+
+    newName = input("Enter new " + optionList[toChange] + " for " + characterEdit.name + "\n")
+
+    characterObj = [item for item in characterList if item.name == characterEdit.name]
+
+    success = characterObj[0].update(optionList[toChange], newName)
+
+
+    print('Character Updated')
+
+    return(success)
     
 
 

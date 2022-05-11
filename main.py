@@ -196,6 +196,16 @@ def CreateCharacter():
     nameSplit = name.split()
     lastName = nameSplit[1].title()
 
+    for character in characterList:
+        if character.name == name:
+            print("Character already exists, would you like to edit " + name.title() + "?")
+            yesNo = input()
+
+            if yesNo == "yes" or yesNo =='y':
+                EditCharacter(character)
+            
+            break
+
     for house in houseList:
         if house.name == lastName:
             houseObj = house
@@ -264,28 +274,44 @@ def EditHouse():
 
     return(success)
 
-def EditCharacter():
+def EditCharacter(passedData = None):
 
     index = 1
     option = None
+    optionList = []
 
-    print('Which character would you like to edit?')
-    for character in characterList:
-        print('[' + str(index) + '] ' + character.name)
-        index = index + 1
+
+    if passedData:
+        print('What would you like to edit of ' + passedData.name.title() + '?')
+        for value in vars(passedData):
+            print('[' + str(index) + '] ' + value.title())
+            optionList.append(value.title())
+            index = index + 1
+        
+        option = int(input())
+
+    else:
+
+        print('Which character would you like to edit?')
+        for character in characterList:
+            print('[' + str(index) + '] ' + character.name)
+            index = index + 1
+
+        print('What would you like to edit of ' + characterEdit.name.title() + '?')
+        for value in vars(characterEdit):
+            print('[' + str(index) + '] ' + value.title())
+            optionList.append(value.title())
+            index = index + 1
+
+        option = int(input())
+        
 
     index = 1
 
-    option = int(input())
-    optionList = []
 
     characterEdit = characterList[option - 1]
 
-    print('What would you like to edit of ' + characterEdit.name + '?')
-    for value in vars(characterEdit):
-        print('[' + str(index) + '] ' + value.title())
-        optionList.append(value.title())
-        index = index + 1
+    
 
     toChange = int(input()) - 1
 

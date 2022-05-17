@@ -126,10 +126,9 @@ def RetrieveCharacterNames():
 
     return returnMessage
 
-def CreateHouse(passedData=None):
+def CreateHouse(passedData = None):
 
     if passedData:
-        print('autofilling data')
         newHouse = house_class.House()
     
         houseName = passedData[0]
@@ -138,7 +137,7 @@ def CreateHouse(passedData=None):
         print(f"{bcolors.BOLD}Creating house " + houseName + " {bcolors.ENDC}")
 
         print(f'{bcolors.BOLD}Is ' + charName + ' the Lord of house ' + houseName + '? {bcolors.ENDC}')
-        yesNo = input()
+        yesNo = input().lower()
 
         if yesNo == 'yes' or yesNo == 'y':
             houseLord = charName
@@ -214,7 +213,7 @@ def CreateCharacter():
     if not houseObj:
         print("No house exits for the character being created.")
         print("Would you like to create house " + lastName.title() + "?")
-        yesNo = input()
+        yesNo = input().lower()
         if yesNo == 'yes' or yesNo == 'y':
             passData = [lastName, name]
             houseObj = CreateHouse(passData)
@@ -248,10 +247,12 @@ def EditHouse():
         print('[' + str(index) + '] ' + house.name)
         index = index + 1
 
+
     index = 1
 
     option = int(input())
     optionList = []
+
 
     houseEdit = houseList[option - 1]
 
@@ -261,18 +262,40 @@ def EditHouse():
         optionList.append(value.title())
         index = index + 1
 
+    print('\n[0] DELETE HOUSE')
+
     toChange = int(input()) - 1
 
-    newName = input("Enter new " + optionList[toChange] + " for house " + houseEdit.name + "\n")
+    if(toChange == -1):
 
-    houseObj = [item for item in houseList if item.name == houseEdit.name]
+        #print('This will delete all characters assigned to house ' + houseEdit.name)
+        print('Please type ' + houseEdit.name + ' to confirm deletion or [0] to cancel')
 
-    success = houseObj[0].update(optionList[toChange], newName)
+        confirmInput = ''
+
+        while(confirmInput != houseEdit.name):
+            confirmInput = input()
+            if confirmInput == houseEdit.name:
+                success = houseEdit.delete()
+            elif confirmInput == '0':
+                success = False
+                break
+            else:
+                print('Please type ' + houseEdit.name + ' to confirm deletion or [0] to cancel')
+    else:
+        newName = input("Enter new " + optionList[toChange] + " for house " + houseEdit.name + "\n")
+
+        houseObj = [item for item in houseList if item.name == houseEdit.name]
+
+        success = houseObj[0].update(optionList[toChange], newName)
 
 
-    print('House Updated')
+        print('House Updated')
 
     return(success)
+
+def DeleteHouse(passedData):
+    print("")
 
 def EditCharacter(passedData = None):
 
@@ -297,15 +320,37 @@ def EditCharacter(passedData = None):
             print('[' + str(index) + '] ' + character.name)
             index = index + 1
 
+        option = int(input())
+        characterEdit = characterList[option - 1]
+
+        index = 1
+
         print('What would you like to edit of ' + characterEdit.name.title() + '?')
         for value in vars(characterEdit):
             print('[' + str(index) + '] ' + value.title())
             optionList.append(value.title())
             index = index + 1
 
-        option = int(input())
-        
+        print('\n[0] DELETE CHARACTER')
 
+
+        option = int(input())
+
+        if option == 0:
+
+            deleteConfirm = None
+            while deleteConfirm != characterEdit.name:
+                
+                print('Please type ' + characterEdit.name + ' to confirm deletion or [0] to cancel')
+                deleteConfirm = input()
+
+                if deleteConfirm == '0':
+                    success = False
+                    return success
+        
+            success = characterEdit.delete()
+            return success
+            
     index = 1
 
 

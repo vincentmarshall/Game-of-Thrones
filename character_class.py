@@ -32,6 +32,22 @@ class Character():
 
             with open(characterDataListFile, "w") as fp:
                 json.dump(list, fp, indent=4)
+    def delete(self):
+        deleteIndex = None
+
+        with open(characterDataListFile) as data_file:
+            list = json.load(data_file)
+
+        for index, value in enumerate(list):
+            if value['name'] == self.name:
+                deleteIndex = index
+        
+        list.pop(deleteIndex)
+
+        with open(characterDataListFile, 'w') as fp:
+            json.dump(list, fp, indent=4)
+        
+        return True
     def update(self, changeVal, newVal):
         changeVal = changeVal.lower()
         toChange = getattr(self, changeVal)

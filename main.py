@@ -137,7 +137,25 @@ def CreateHouse(passedData = None):
         houseSeat = input()
 
         print(f'{bcolors.BOLD}Who is the Lord of house ' + houseName + '? {bcolors.ENDC}')
-        houseLord = input()
+
+        #Find all noble characters with the house name
+        nobleList = []
+        for character in characterList:
+            nameSplit = character.name.split()
+            lastName = nameSplit[1]
+            if lastName.lower() == houseName.lower():
+                nobleList.append(character)
+
+        #Print all characters in noble list
+        for index, character in enumerate(nobleList):
+            print('[' + str(index + 1) + '] ' + character.name.title())
+            
+        
+        #print('[0] New Character')
+        userInput = input()
+
+        houseLord = nobleList[int(userInput) - 1].name
+
 
     newHouse.name = houseName
     newHouse.royal = royal
@@ -171,9 +189,10 @@ def CreateCharacter():
     nameSplit = name.split()
     if len(nameSplit) < 2:
         print('Please give your character a last name.')
-        nameSplit.append(input())
-
-    lastName = nameSplit[1].title()
+        lastName = input()
+        name = name + " " + lastName
+    else:
+        lastName = nameSplit[1].title()
 
     if characterList:
         for character in characterList:
@@ -292,7 +311,6 @@ def EditHouse():
             confirmInput = input()
             if confirmInput == houseEdit.name:
                 success = houseEdit.delete()
-                print('House Deleted')
             elif confirmInput == '0':
                 success = False
                 break

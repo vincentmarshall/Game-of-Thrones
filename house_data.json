@@ -1,28 +1,30 @@
 [
     {
-        "name": "Lannister",
-        "sigil": "Golden Lion",
-        "seat": "casterly rock",
-        "lord": "tywin",
-        "royal": true,
-        "members": []
-    },
-    {
-        "name": "snow",
-        "sigil": "snow",
-        "seat": "nowhere",
-        "lord": "noone",
-        "royal": false,
-        "members": []
-    },
-    {
         "name": "Freelancers",
         "sigil": "Nothing",
         "seat": "Nowhere",
         "lord": "Nobody",
         "royal": false,
         "members": [
-            "vincent marshall"
+            "vincent marshall",
+            "yvonne",
+            "yvonne marshall"
         ]
+    },
+    {
+        "name": "lannister",
+        "sigil": "golden lion",
+        "seat": "casterley rock",
+        "lord": "tywin",
+        "royal": true,
+        "members": []
+    },
+    {
+        "name": "marshall",
+        "sigil": "f",
+        "seat": "f",
+        "lord": "yvonne marshall",
+        "royal": true,
+        "members": []
     }
 ]

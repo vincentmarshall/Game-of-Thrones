@@ -1,10 +1,12 @@
 from webbrowser import get
 import house_class
 import character_class
+import jobs_class
 import os
 
 houseList = house_class.importHouses()
 characterList = character_class.importCharacters()
+jobsList = jobs_class.importJobs()
 
 class bcolors:
     HEADER = '\033[95m'
@@ -20,7 +22,6 @@ class bcolors:
 houseDataListFile = 'house_data.json'
 
 print(f'{bcolors.HEADER}------Welcome to Game of Thrones Character Simulator!------{bcolors.ENDC}')
-
 
 def MainMenu():
     global houseList
@@ -122,6 +123,13 @@ def CreateHouse(passedData = None):
 
         print(f"{bcolors.BOLD}Creating house " + houseName + " {bcolors.ENDC}")
 
+        print('Is ' + houseName + ' a Royal House?')
+        userInput = input()
+        if userInput.lower() == 'y' or userInput.lower() == 'yes':
+            royal = True
+        else:
+            royal = False
+
         print(f"{bcolors.BOLD}What is house " + houseName + "'s sigil? {bcolors.ENDC}")
         houseSigil = input()
 
@@ -132,6 +140,7 @@ def CreateHouse(passedData = None):
         houseLord = input()
 
     newHouse.name = houseName
+    newHouse.royal = royal
     newHouse.sigil = houseSigil
     newHouse.seat = houseSeat
     newHouse.lord = houseLord
@@ -197,7 +206,11 @@ def CreateCharacter():
                     break
 
     print(f'{bcolors.BOLD}What title does ' + name + ' hold? {bcolors.ENDC}')
-    title = input()
+    for index, job in enumerate(jobsList):
+        print('[' + str(index + 1) + '] ' + job)
+
+    userInput = input()
+    title = jobsList[int(userInput) - 1]
 
     ClearConsole()
 

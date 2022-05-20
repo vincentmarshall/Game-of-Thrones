@@ -14,6 +14,7 @@ class House():
             self.sigil = ""
             self.seat = ""
             self.lord = ""
+            self.royal = False
             self.members = []
         else:
             self.name = defaultValues['name']

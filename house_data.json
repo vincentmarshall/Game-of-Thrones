@@ -1,16 +1,18 @@
 [
     {
-        "name": "Stark",
-        "sigil": "dsfgfd",
-        "seat": "Winterfell",
-        "lord": "dfgd",
+        "name": "Lannister",
+        "sigil": "Golden Lion",
+        "seat": "casterly rock",
+        "lord": "tywin",
+        "royal": true,
         "members": []
     },
     {
-        "name": "Lannister",
-        "sigil": "Golden Lion",
-        "seat": "Casterley Rock",
-        "lord": "Tyrion",
+        "name": "snow",
+        "sigil": "snow",
+        "seat": "nowhere",
+        "lord": "noone",
+        "royal": false,
         "members": []
     },
     {
@@ -18,41 +20,9 @@
         "sigil": "Nothing",
         "seat": "Nowhere",
         "lord": "Nobody",
+        "royal": false,
         "members": [
-            "test",
-            "1",
-            "1",
-            "1",
-            "2"
-        ]
-    },
-    {
-        "name": "Snow",
-        "sigil": "nothing",
-        "seat": "nowhere",
-        "lord": "jon snow",
-        "members": [
-            "jon snow",
-            "Jon Snow",
-            "Jon Snow"
-        ]
-    },
-    {
-        "name": "Tully",
-        "sigil": "dont know",
-        "seat": "dont know",
-        "lord": "samwell tully",
-        "members": [
-            "samwell tully"
-        ]
-    },
-    {
-        "name": "Marshall",
-        "sigil": "dog",
-        "seat": "st clair",
-        "lord": "vincent marshall",
-        "members": [
-            "vincent"
+            "vincent marshall"
         ]
     }
 ]

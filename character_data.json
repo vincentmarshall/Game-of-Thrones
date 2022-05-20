@@ -10,5 +10,29 @@
             "wisdom": 5,
             "charisma": 0
         }
+    },
+    {
+        "name": "vincent",
+        "allegiance": "",
+        "title": "Knight",
+        "attributes": {
+            "strength": 100,
+            "dextarity": 20,
+            "intelligence": 0,
+            "wisdom": 0,
+            "charisma": 0
+        }
+    },
+    {
+        "name": "vincent marshall",
+        "allegiance": "",
+        "title": "Prince",
+        "attributes": {
+            "strength": 120,
+            "dextarity": 0,
+            "intelligence": 0,
+            "wisdom": 0,
+            "charisma": 0
+        }
     }
 ]

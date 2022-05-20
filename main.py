@@ -1,5 +1,6 @@
 import house_class
 import character_class
+import os
 
 houseList = house_class.importHouses()
 characterList = character_class.importCharacters()
@@ -19,114 +20,69 @@ houseDataListFile = 'house_data.json'
 
 print(f'{bcolors.HEADER}------Welcome to Game of Thrones Character Simulator!------{bcolors.ENDC}')
 
+
 def MainMenu():
     global houseList
     global characterList
     option = None
 
+    optionList = [
+        
+        {'name': 'Display Houses', 'active': True, 'func': PrintHouseNames},
+        {'name': 'Display Characters','active': True, 'func': RetrieveCharacterNames},
+        {'name': 'Create House','active': True, 'func': CreateHouse},
+        {'name': 'Create Character','active': True, 'func': CreateCharacter},
+        {'name': 'Edit House','active': True, 'func': EditHouse},
+        {'name': 'Edit Character','active': True, 'func': EditCharacter},
+        
+    ]
+
     while option == None:
 
         print(f'{bcolors.BOLD}What would you like to do?\n{bcolors.ENDC}')
 
-        print(f'{bcolors.OKGREEN}[1] Display Noble Houses{bcolors.ENDC}')
-        print(f'{bcolors.OKGREEN}[2] Display Characters{bcolors.ENDC}')
-        print(f'{bcolors.OKGREEN}[3] Create Noble House{bcolors.ENDC}')
-        print(f'{bcolors.OKGREEN}[4] Create Character{bcolors.ENDC}')
-        print(f'{bcolors.OKGREEN}[5] Edit House{bcolors.ENDC}')
-        print(f'{bcolors.OKGREEN}[6] Edit Character{bcolors.ENDC}')
+        for index, value in enumerate(optionList):
+            print( "[" + str(index + 1) + "] " + str(value['name']))
 
-
-        print('\n')
-        print(f'{bcolors.OKGREEN}[0] Exit{bcolors.ENDC}')
+        print(f'{bcolors.OKGREEN}\n[0] Exit{bcolors.ENDC}')
 
         print('\n')
         print("Please enter your choice")
-        option = int(input())
+        optionInput = int(input())
 
-        if option == 0:
-            quit()
-        if option == 1:
-
-            result = RetrieveHouseNames()
-
-            if result != None:
-                print(f'{bcolors.BOLD}Current Houses:{bcolors.ENDC}')
-
-                for names in result:
-                    print(names.title())
-            
-            else:
-                print(f'{bcolors.BOLD}There are no houses created yet.{bcolors.ENDC}')
-
-            option = None
-
-
-        if option == 2:
-            result = RetrieveCharacterNames()
-
-            if result != None:
-                print(f'{bcolors.BOLD}Current Characters:{bcolors.ENDC}')
-
-                for names in result:
-                    print(names.title())
-            else:
-                print(f'{bcolors.BOLD}There are no characters created yet.{bcolors.ENDC}')
-
-            option = None
-
-
-        if option == 3:
-            newHouse = CreateHouse()
-            if houseList:
-                houseList.append(newHouse)
-            else:
-                houseList = []
-                houseList.append(newHouse)
-            option = None
-
-        if option == 4:
-            newChar = CreateCharacter()
-            characterList.append(newChar)
-            option = None
-
-        if option == 5:
-
-            success = EditHouse()
-            if success:
-                houseList = house_class.importHouses()
-            option = None
-
-        if option == 6:
-
-            success = EditCharacter()
-            if success:
-                characterList = character_class.importCharacters()
-
-            option = None
-
-
-
-
+        optionList[optionInput - 1]['func']()
     
-def RetrieveHouseNames():
-    returnMessage = None
-    if houseList != None:
-        returnMessage = []
-        for house in houseList:
-            returnMessage.append(house.name)
+def PrintHouseNames():
 
-    return returnMessage
+    ClearConsole()
+
+    print('--------Current Houses---------')
+    if houseList != None:
+        for house in houseList:
+            print(house.name)
+    else:
+        print('There are no houses created yet.')
+
+    return
     
 def RetrieveCharacterNames():
-    returnMessage = None
-    if characterList != None:
-        returnMessage = []
-        for character in characterList:
-            returnMessage.append(character.name)
 
-    return returnMessage
+    ClearConsole()
+
+    if characterList != None:
+        for character in characterList:
+            print(character.name.title())
+    else:
+        print('There are no characters created yet.')
+
+    return
 
 def CreateHouse(passedData = None):
+
+    global houseList
+
+    ClearConsole()
+
 
     if passedData:
         newHouse = house_class.House()
@@ -134,7 +90,7 @@ def CreateHouse(passedData = None):
         houseName = passedData[0]
         charName = passedData[1]
 
-        print(f"{bcolors.BOLD}Creating house " + houseName + " {bcolors.ENDC}")
+        print(f'{bcolors.BOLD}Creating house ' + houseName + '{bcolors.ENDC}')
 
         print(f'{bcolors.BOLD}Is ' + charName + ' the Lord of house ' + houseName + '? {bcolors.ENDC}')
         yesNo = input().lower()
@@ -181,9 +137,19 @@ def CreateHouse(passedData = None):
 
     newHouse.save()
 
-    return newHouse
+    if houseList:
+        houseList.append(newHouse)
+    else:
+        houseList = []
+        houseList.append(newHouse)
+
+    return
 
 def CreateCharacter():
+
+    ClearConsole()
+
+
     print("Creating Character")
 
     houseObj = None
@@ -239,6 +205,8 @@ def CreateCharacter():
 
 def EditHouse():
 
+    ClearConsole()
+
     index = 1
     option = None
 
@@ -277,6 +245,7 @@ def EditHouse():
             confirmInput = input()
             if confirmInput == houseEdit.name:
                 success = houseEdit.delete()
+                print('House Deleted')
             elif confirmInput == '0':
                 success = False
                 break
@@ -295,9 +264,11 @@ def EditHouse():
     return(success)
 
 def DeleteHouse(passedData):
-    print("")
+    print("k")
 
 def EditCharacter(passedData = None):
+
+    ClearConsole()
 
     index = 1
     option = None
@@ -372,6 +343,8 @@ def EditCharacter(passedData = None):
     return(success)
     
 
-
+def ClearConsole():
+    os.system('cls' if os.name == 'nt' else 'clear')
+    return
 
 MainMenu()

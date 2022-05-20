@@ -5,9 +5,7 @@ classDataListFile = 'class_data.json'
 class Class:
 
     def __init__(self):
-        self.nobility = False,
-        self.loyalty = 0,
-        self.pride = 0,
+        print()
 
     def save(self):
 

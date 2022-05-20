@@ -1,17 +1,14 @@
 [
     {
-        "name": "Sansa Stark",
-        "allegiance": "",
-        "title": "other"
-    },
-    {
-        "name": "samwell tully",
-        "allegiance": "",
-        "title": "lord"
-    },
-    {
         "name": "Jon Snow",
         "allegiance": "",
-        "title": "Lord"
+        "title": "lord",
+        "attributes": {
+            "strength": 75,
+            "dextarity": 20,
+            "intelligence": 20,
+            "wisdom": 5,
+            "charisma": 0
+        }
     }
 ]

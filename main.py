@@ -1,3 +1,4 @@
+from webbrowser import get
 import house_class
 import character_class
 import os
@@ -29,7 +30,7 @@ def MainMenu():
     optionList = [
         
         {'name': 'Display Houses', 'active': True, 'func': PrintHouseNames},
-        {'name': 'Display Characters','active': True, 'func': RetrieveCharacterNames},
+        {'name': 'Display Characters','active': True, 'func': PrintCharacterNames},
         {'name': 'Create House','active': True, 'func': CreateHouse},
         {'name': 'Create Character','active': True, 'func': CreateCharacter},
         {'name': 'Edit House','active': True, 'func': EditHouse},
@@ -65,7 +66,7 @@ def PrintHouseNames():
 
     return
     
-def RetrieveCharacterNames():
+def PrintCharacterNames():
 
     ClearConsole()
 
@@ -159,17 +160,22 @@ def CreateCharacter():
     name = input()
 
     nameSplit = name.split()
+    if len(nameSplit) < 2:
+        print('Please give your character a last name.')
+        nameSplit.append(input())
+
     lastName = nameSplit[1].title()
 
-    for character in characterList:
-        if character.name == name:
-            print("Character already exists, would you like to edit " + name.title() + "?")
-            yesNo = input()
+    if characterList:
+        for character in characterList:
+            if character.name == name:
+                print("Character already exists, would you like to edit " + name.title() + "?")
+                yesNo = input()
 
-            if yesNo == "yes" or yesNo =='y':
-                EditCharacter(character)
-            
-            break
+                if yesNo == "yes" or yesNo =='y':
+                    EditCharacter(character)
+
+                break
 
     for house in houseList:
         if house.name == lastName:
@@ -193,6 +199,34 @@ def CreateCharacter():
     print(f'{bcolors.BOLD}What title does ' + name + ' hold? {bcolors.ENDC}')
     title = input()
 
+    ClearConsole()
+
+    pointsLeft = 120
+    print('You have been given 200 attribute points for your character, spend wisely!')
+
+
+    valueList = []
+    while pointsLeft > 0:
+        print('What would you like to assign points to?')
+        print('You have ' + str(pointsLeft) + ' points left')
+        for index, (attribute, value) in enumerate(newCharacter.attributes.items()):
+            print('[' + str(index + 1) + '] ' + str(attribute.title()) + '     ' + str(value))
+            valueList.append(attribute)
+
+        userChoice = input()
+
+        print('How many points would you like to assign ' + valueList[int(userChoice) - 1] + '?')
+        userAmmount = input()
+        userAmmount = int(userAmmount)
+
+        choice = valueList[int(userChoice) - 1]
+
+        #print(newCharacter.attributes['strength'])
+        newCharacter.attributes[choice] = userAmmount
+        pointsLeft = pointsLeft - userAmmount
+
+
+    print(newCharacter.attributes)
 
     newCharacter.name = name
     newCharacter.title = title
@@ -262,9 +296,6 @@ def EditHouse():
         print('House Updated')
 
     return(success)
-
-def DeleteHouse(passedData):
-    print("k")
 
 def EditCharacter(passedData = None):
 
@@ -342,6 +373,11 @@ def EditCharacter(passedData = None):
 
     return(success)
     
+def CreateClass():
+    
+    ClearConsole()
+
+    print('What class would you like to create?')
 
 def ClearConsole():
     os.system('cls' if os.name == 'nt' else 'clear')

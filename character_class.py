@@ -11,6 +11,13 @@ class Character():
             self.name = ""
             self.allegiance = ""
             self.title = ""
+            self.attributes = {
+                'strength' : 0,
+                'dextarity' : 0,
+                'intelligence' : 0,
+                'wisdom' : 0,
+                'charisma' : 0
+            }
         else:
             self.name = defaultValues['name']
             self.allegiance = defaultValues['allegiance']

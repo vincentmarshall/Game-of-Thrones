@@ -5,13 +5,7 @@
         "seat": "Nowhere",
         "lord": "Nobody",
         "royal": false,
-        "members": [
-            "vincent marshall",
-            "yvonne",
-            "yvonne marshall",
-            "1 1",
-            "2 2"
-        ]
+        "members": []
     },
     {
         "name": "Lannister",
@@ -20,7 +14,8 @@
         "lord": "tywin",
         "royal": true,
         "members": [
-            "Tywin Lannister"
+            "Tywin Lannister",
+            "Tyrion Lannister"
         ]
     },
     {

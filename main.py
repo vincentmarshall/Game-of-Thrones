@@ -391,6 +391,21 @@ def EditCharacter(passedData = None):
                     return False
         
             success = characterEdit.delete()
+    
+            if success:
+                #Delete from local list
+                for index, value in enumerate(characterList):
+                    if value.name == characterEdit.name:
+                        characterList.pop(index)
+
+                #Delete from house members list
+                nameSplit = characterEdit.name.split()
+                for house in houseList:
+                    if str(house.name.lower()) == str(nameSplit[1].lower()):
+                        charHouse = house
+                
+                charHouse.updateMembers(memberName = characterEdit.name, remove = True)
+                
             return success
             
     index = 1

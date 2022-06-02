@@ -85,10 +85,14 @@ class House():
         with open(houses_file) as data_file:
             list = json.load(data_file)
         
+        memberList = self.members
+
         if remove:
-            print("removing is not set up yet")
+            for index, member in enumerate(memberList):
+                if member == memberName:
+                    memberList.pop(index)
+                    break
         else:
-            memberList = self.members
             memberList.append(memberName)
 
         for value in list:
@@ -96,9 +100,12 @@ class House():
 
                 value['members'] = memberList
 
-                print(memberName.title() + " added to house " + self.name)
+                if remove:
+                    print(memberName.title() + " removed from house " + self.name)
+                else:
+                    print(memberName.title() + " added to house " + self.name)
                 break
-    
+
         with open(houses_file, 'w') as fp:
             json.dump(list, fp, indent=4)
 

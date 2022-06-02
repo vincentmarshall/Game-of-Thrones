@@ -1,8 +1,11 @@
 from webbrowser import get
-import house_class
-import character_class
-import jobs_class
 import os
+
+from attr import attr
+
+from functions import house_class
+from functions import character_class
+from functions import jobs_class
 
 houseList = house_class.importHouses()
 characterList = character_class.importCharacters()
@@ -41,6 +44,7 @@ def MainMenu():
 
     while option == None:
 
+        print(f'{bcolors.OKCYAN}---------------------------------------------------\n{bcolors.ENDC}')
         print(f'{bcolors.BOLD}What would you like to do?\n{bcolors.ENDC}')
 
         for index, value in enumerate(optionList):
@@ -58,10 +62,15 @@ def PrintHouseNames():
 
     ClearConsole()
 
-    print('--------Current Houses---------')
     if houseList != None:
         for house in houseList:
-            print(house.name)
+            print(house.name.title())
+            print('|_ ' + 'Members:')
+            if len(house.members) == 0:
+                print('   There are no members')
+            else:
+                for member in house.members:
+                    print('  |_' + member)
     else:
         print('There are no houses created yet.')
 
@@ -74,6 +83,10 @@ def PrintCharacterNames():
     if characterList != None:
         for character in characterList:
             print(character.name.title())
+            for trait in character.traits:
+                print('|_ ' + trait + ': ' + str(character.traits[trait]))
+
+            print('\n')
     else:
         print('There are no characters created yet.')
 
@@ -240,10 +253,10 @@ def CreateCharacter():
     valueList = []
     while pointsLeft > 0:
         print('What would you like to assign points to?')
-        print('You have ' + str(pointsLeft) + ' points left')
-        for index, (attribute, value) in enumerate(newCharacter.attributes.items()):
-            print('[' + str(index + 1) + '] ' + str(attribute.title()) + '     ' + str(value))
-            valueList.append(attribute)
+        print('You have ' + str(pointsLeft) + ' points left\n')
+        for index, (trait, value) in enumerate(newCharacter.traits.items()):
+            print('[' + str(index + 1) + '] ' + str(trait.title()) + '     ' + str(value))
+            valueList.append(trait)
 
         userChoice = input()
 
@@ -253,12 +266,8 @@ def CreateCharacter():
 
         choice = valueList[int(userChoice) - 1]
 
-        #print(newCharacter.attributes['strength'])
-        newCharacter.attributes[choice] = userAmmount
+        newCharacter.traits[choice] = userAmmount
         pointsLeft = pointsLeft - userAmmount
-
-
-    print(newCharacter.attributes)
 
     newCharacter.name = name
     newCharacter.title = title
@@ -266,6 +275,7 @@ def CreateCharacter():
     newCharacter.save()
 
     houseObj.updateMembers(newCharacter.name, False)
+    characterList.append(newCharacter)
 
     return newCharacter
 
@@ -333,7 +343,7 @@ def EditCharacter(passedData = None):
     ClearConsole()
 
     index = 1
-    option = None
+    #option = None
     optionList = []
 
 
@@ -344,7 +354,7 @@ def EditCharacter(passedData = None):
             optionList.append(value.title())
             index = index + 1
         
-        option = int(input())
+        userOption = int(input())
 
     else:
 
@@ -367,9 +377,9 @@ def EditCharacter(passedData = None):
         print('\n[0] DELETE CHARACTER')
 
 
-        option = int(input())
+        userOption = input()
 
-        if option == 0:
+        if int(userOption) == 0:
 
             deleteConfirm = None
             while deleteConfirm != characterEdit.name:
@@ -378,20 +388,16 @@ def EditCharacter(passedData = None):
                 deleteConfirm = input()
 
                 if deleteConfirm == '0':
-                    success = False
-                    return success
+                    return False
         
             success = characterEdit.delete()
             return success
             
     index = 1
 
+    toChange = int(userOption) - 1
 
-    characterEdit = characterList[option - 1]
-
-    
-
-    toChange = int(input()) - 1
+    characterEdit = characterList[toChange - 1]
 
     newName = input("Enter new " + optionList[toChange] + " for " + characterEdit.name + "\n")
 

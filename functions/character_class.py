@@ -1,7 +1,7 @@
 import json
 import os
 
-characterDataListFile = 'character_data.json'
+char_file = os.getcwd() + '\data\character_data.json'
 
 class Character():
 
@@ -11,7 +11,7 @@ class Character():
             self.name = ""
             self.allegiance = ""
             self.title = ""
-            self.attributes = {
+            self.traits = {
                 'strength' : 0,
                 'dextarity' : 0,
                 'intelligence' : 0,
@@ -22,27 +22,28 @@ class Character():
             self.name = defaultValues['name']
             self.allegiance = defaultValues['allegiance']
             self.title = defaultValues['title']
+            self.traits = defaultValues['traits']
     def save(self):
-        isEmpty = os.stat(characterDataListFile).st_size == 0
+        isEmpty = os.stat(char_file).st_size == 0
         newCharacter = self.__dict__
         list = []
         if isEmpty:
             list.append(newCharacter)
-            with open(characterDataListFile, "w") as fp:
+            with open(char_file, "w") as fp:
                 json.dump(list, fp, indent=4)
         else:
 
-            with open(characterDataListFile) as data_file:
+            with open(char_file) as data_file:
                 list = json.load(data_file)
 
             list.append(newCharacter)
 
-            with open(characterDataListFile, "w") as fp:
+            with open(char_file, "w") as fp:
                 json.dump(list, fp, indent=4)
     def delete(self):
         deleteIndex = None
 
-        with open(characterDataListFile) as data_file:
+        with open(char_file) as data_file:
             list = json.load(data_file)
 
         for index, value in enumerate(list):
@@ -51,14 +52,14 @@ class Character():
         
         list.pop(deleteIndex)
 
-        with open(characterDataListFile, 'w') as fp:
+        with open(char_file, 'w') as fp:
             json.dump(list, fp, indent=4)
         
         return True
     def update(self, changeVal, newVal):
         changeVal = changeVal.lower()
         toChange = getattr(self, changeVal)
-        with open(characterDataListFile) as data_file:
+        with open(char_file) as data_file:
             list = json.load(data_file)
 
         for index, value in enumerate(list):
@@ -69,7 +70,7 @@ class Character():
         
         dictObj[changeVal] = newVal
 
-        with open(characterDataListFile, "w") as fp:
+        with open(char_file, "w") as fp:
             json.dump(list, fp, indent=4)
 
         return True
@@ -79,12 +80,14 @@ class Character():
     
 def importCharacters():
     print('Importing Characters')
-    isEmpty = os.stat(characterDataListFile).st_size == 0
+
+
+    isEmpty = os.stat(char_file).st_size == 0
 
     if (isEmpty):
         print('No characters to import.')
     else:
-        fileObject = open(characterDataListFile, "r")
+        fileObject = open(char_file, "r")
         jsonContent = fileObject.read()
         characterList = json.loads(jsonContent)
         newList = []

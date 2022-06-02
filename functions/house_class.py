@@ -3,10 +3,11 @@ import json
 import os
 import string
 
-houseDataListFile = 'house_data.json'
+
+houses_file = os.getcwd() + '\data\house_data.json'
+
 
 class House():
-
     #Core House functions
     def __init__(self, defaultValues = None):
         if defaultValues is None:
@@ -24,21 +25,21 @@ class House():
             self.members = defaultValues['members']
 
     def save(self):
-        isEmpty = os.stat(houseDataListFile).st_size == 0
+        isEmpty = os.stat(houses_file).st_size == 0
         newHouse = self.__dict__
         list = []
         if isEmpty:
             list.append(newHouse)
-            with open(houseDataListFile, "w") as fp:
+            with open(houses_file, "w") as fp:
                 json.dump(list, fp, indent=4)
         else:
 
-            with open(houseDataListFile) as data_file:
+            with open(houses_file) as data_file:
                 list = json.load(data_file)
 
             list.append(newHouse)
 
-            with open(houseDataListFile, "w") as fp:
+            with open(houses_file, "w") as fp:
                 json.dump(list, fp, indent=4)
             print('House Saved')
 
@@ -46,7 +47,7 @@ class House():
 
         deleteIndex = None
 
-        with open(houseDataListFile) as data_file:
+        with open(houses_file) as data_file:
             list = json.load(data_file)
         
         for index, value in enumerate(list):
@@ -55,7 +56,7 @@ class House():
         
         list.pop(deleteIndex)
 
-        with open(houseDataListFile, 'w') as fp:
+        with open(houses_file, 'w') as fp:
             json.dump(list, fp, indent=4)
 
         return True
@@ -63,7 +64,7 @@ class House():
     def update(self, changeVal, newVal):
         changeVal = changeVal.lower()
         toChange = getattr(self, changeVal)
-        with open(houseDataListFile) as data_file:
+        with open(houses_file) as data_file:
             list = json.load(data_file)
 
         for index, value in enumerate(list):
@@ -74,14 +75,14 @@ class House():
         
         dictObj[changeVal] = newVal
 
-        with open(houseDataListFile, "w") as fp:
+        with open(houses_file, "w") as fp:
             json.dump(list, fp, indent=4)
 
         return True
 
     #Supplementary House functions
     def updateMembers(self, memberName: string, remove: bool):
-        with open(houseDataListFile) as data_file:
+        with open(houses_file) as data_file:
             list = json.load(data_file)
         
         if remove:
@@ -98,16 +99,16 @@ class House():
                 print(memberName.title() + " added to house " + self.name)
                 break
     
-        with open(houseDataListFile, 'w') as fp:
+        with open(houses_file, 'w') as fp:
             json.dump(list, fp, indent=4)
 
 def importHouses():
-    isEmpty = os.stat(houseDataListFile).st_size == 0
+    isEmpty = os.stat(houses_file).st_size == 0
 
     if (isEmpty):
         print('No houses to import.')
     else:
-        fileObject = open("house_data.json", "r")
+        fileObject = open(houses_file, "r")
         jsonContent = fileObject.read()
         houseList = json.loads(jsonContent)
         newList = []

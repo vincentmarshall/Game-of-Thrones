@@ -1,6 +1,7 @@
 import json
+import os
 
-classDataListFile = 'class_data.json'
+data_file = os.getcwd() + ''
 
 class Class:
 
@@ -13,5 +14,5 @@ class Class:
         newList = []
         newList.append(newClass)
 
-        with open(classDataListFile, 'w') as fp:
+        with open(data_file, 'w') as fp:
             json.dump(newList, fp, indent = 4)

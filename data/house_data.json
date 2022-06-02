@@ -8,19 +8,23 @@
         "members": [
             "vincent marshall",
             "yvonne",
-            "yvonne marshall"
+            "yvonne marshall",
+            "1 1",
+            "2 2"
         ]
     },
     {
-        "name": "lannister",
+        "name": "Lannister",
         "sigil": "golden lion",
         "seat": "casterley rock",
         "lord": "tywin",
         "royal": true,
-        "members": []
+        "members": [
+            "Tywin Lannister"
+        ]
     },
     {
-        "name": "marshall",
+        "name": "Marshall",
         "sigil": "f",
         "seat": "f",
         "lord": "yvonne marshall",

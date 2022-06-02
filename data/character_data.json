@@ -3,7 +3,7 @@
         "name": "Jon Snow",
         "allegiance": "",
         "title": "lord",
-        "attributes": {
+        "traits": {
             "strength": 75,
             "dextarity": 20,
             "intelligence": 20,
@@ -14,8 +14,8 @@
     {
         "name": "vincent marshall",
         "allegiance": "",
-        "title": "Prince",
-        "attributes": {
+        "title": "King",
+        "traits": {
             "strength": 120,
             "dextarity": 0,
             "intelligence": 0,
@@ -24,13 +24,37 @@
         }
     },
     {
-        "name": "yvonne marshall",
+        "name": "Yvonne Marshall",
         "allegiance": "",
         "title": "Queen",
-        "attributes": {
+        "traits": {
             "strength": 0,
             "dextarity": 0,
             "intelligence": 120,
+            "wisdom": 0,
+            "charisma": 0
+        }
+    },
+    {
+        "name": "Tywin Lannister",
+        "allegiance": "",
+        "title": "Hand of the King",
+        "traits": {
+            "strength": 15,
+            "dextarity": 0,
+            "intelligence": 5,
+            "wisdom": 65,
+            "charisma": 35
+        }
+    },
+    {
+        "name": "2 2",
+        "allegiance": "",
+        "title": "King",
+        "traits": {
+            "strength": 120,
+            "dextarity": 0,
+            "intelligence": 0,
             "wisdom": 0,
             "charisma": 0
         }

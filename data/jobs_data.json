@@ -1,15 +1,15 @@
 [
-    "King",
-    "Queen",
-    "Hand of the King",
-    "Prince",
-    "Princess",
-    "Knight",
-    "Lord",
-    "Night's Watch",
-    "Squire",
-    "Healer",
-    "Blacksmith",
-    "Archer",
-    "Infantry"
+    {"title": "King", "noble": true},
+    {"title": "Queen", "noble": true},
+    {"title": "Hand of the King", "noble": true},
+    {"title": "Prince", "noble": true},
+    {"title": "Princess", "noble": true},
+    {"title": "Lord", "noble": true},
+    {"title": "Knight", "noble": false},
+    {"title": "Night's Watch", "noble": false},
+    {"title": "Squire", "noble": false},
+    {"title": "Healer", "noble": false},
+    {"title": "Blacksmith", "noble": false},
+    {"title": "Archer", "noble": false},
+    {"title": "Infantry", "noble": false}
 ]

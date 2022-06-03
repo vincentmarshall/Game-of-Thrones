@@ -6,10 +6,12 @@ from attr import attr
 from functions import house_class
 from functions import character_class
 from functions import jobs_class
+from functions import place_class
 
 houseList = house_class.importHouses()
 characterList = character_class.importCharacters()
 jobsList = jobs_class.importJobs()
+placeList = place_class.ImportPlaces()
 
 class bcolors:
     HEADER = '\033[95m'
@@ -24,27 +26,27 @@ class bcolors:
 
 houseDataListFile = 'house_data.json'
 
-print(f'{bcolors.HEADER}------Welcome to Game of Thrones Character Simulator!------{bcolors.ENDC}')
+userCharacter = None
+
+print(f'{bcolors.HEADER}------Welcome to Game of Thrones Character Simulator!------\n{bcolors.ENDC}')
 
 def MainMenu():
     global houseList
     global characterList
-    option = None
+    optionInput = None
 
     optionList = [
         
         {'name': 'Display Houses', 'active': True, 'func': PrintHouseNames},
         {'name': 'Display Characters','active': True, 'func': PrintCharacterNames},
-        {'name': 'Create House','active': True, 'func': CreateHouse},
-        {'name': 'Create Character','active': True, 'func': CreateCharacter},
-        {'name': 'Edit House','active': True, 'func': EditHouse},
-        {'name': 'Edit Character','active': True, 'func': EditCharacter},
+        {'name': 'Select Character','active': True, 'func': SelectCharacter},
+        {'name': 'ADMIN MENU','active': True, 'func': AdminMenu},
         
     ]
 
-    while option == None:
+    while optionInput == None:
 
-        print(f'{bcolors.OKCYAN}---------------------------------------------------\n{bcolors.ENDC}')
+        print(f'{bcolors.OKCYAN}-----------------MAIN MENU-----------------\n{bcolors.ENDC}')
         print(f'{bcolors.BOLD}What would you like to do?\n{bcolors.ENDC}')
 
         for index, value in enumerate(optionList):
@@ -57,7 +59,79 @@ def MainMenu():
         optionInput = int(input())
 
         optionList[optionInput - 1]['func']()
-    
+
+def GameMenu():
+
+    global userCharacter
+
+    optionList = [
+        
+        {'name': 'Display Houses', 'active': True, 'func': PrintHouseNames},
+        {'name': 'Display Characters','active': True, 'func': PrintCharacterNames},
+        {'name': 'Select Character','active': True, 'func': SelectCharacter},
+        {'name': 'ADMIN MENU','active': True, 'func': AdminMenu},
+        
+    ]
+
+    if userCharacter:
+        print('You are currently ' + userCharacter.name)
+    else:
+        SelectCharacter()
+    print(f'{bcolors.OKCYAN}-----------------GAME MENU-----------------\n{bcolors.ENDC}')
+    print(f'{bcolors.BOLD}What would you like to do?\n{bcolors.ENDC}')
+
+def SelectCharacter():
+
+    global userCharacter
+
+    PrintCharacterNames()
+
+    print('Which character would you like to select?')
+    optionInput = input()
+
+    for character in characterList:
+        if character.name == optionInput:
+            userCharacter = character
+
+    GameMenu()
+
+def AdminMenu():
+
+    option = None
+
+   
+    optionList = [
+        
+        {'name': 'Create House','active': True, 'func': CreateHouse},
+        {'name': 'Create Character','active': True, 'func': CreateCharacter},
+        {'name': 'Create Place','active': True, 'func': CreatePlace},
+        {'name': 'Display Places','active': True, 'func': PrintPlaces},
+        {'name': 'Edit House','active': True, 'func': EditHouse},
+        {'name': 'Edit Character','active': True, 'func': EditCharacter},
+        
+    ]
+
+    while option == None:
+
+        print(f'{bcolors.OKCYAN}-----------------ADMIN MENU-----------------\n{bcolors.ENDC}')
+        print(f'{bcolors.BOLD}What would you like to do?\n{bcolors.ENDC}')
+
+        for index, value in enumerate(optionList):
+            print( "[" + str(index + 1) + "] " + str(value['name']))
+
+        print(f'{bcolors.OKGREEN}\n[/] Back{bcolors.ENDC}')
+        print(f'{bcolors.OKGREEN}\n[0] Exit{bcolors.ENDC}')
+
+        print('\n')
+        print("Please enter your choice")
+        optionInput = input()
+        if optionInput == "/":
+            ClearConsole()
+            MainMenu()
+        elif optionInput == "0":
+            quit()
+        optionList[int(optionInput) - 1]['func']()
+
 def PrintHouseNames():
 
     ClearConsole()
@@ -91,6 +165,54 @@ def PrintCharacterNames():
         print('There are no characters created yet.')
 
     return
+
+def PrintPlaces():
+
+    ClearConsole()
+
+    if placeList != None:
+        for place in placeList:
+            print(place.name.title())
+    else:
+        print("There are no places created yet.")
+
+def CreatePlace(passedData = None):
+
+    global placeList
+
+    ClearConsole()
+
+    newPlace = place_class.Place()
+
+    if passedData:
+        print('not set up yet')
+        name = passedData["name"]
+        rulers = passedData["rulers"]
+        print("Where is " + name)
+        location = input()
+    else:
+
+        print("What is the name of the place?")
+        name = input()
+        print("Who are rulers of " + name)
+        rulers = input()
+        print("Where is " + name)
+        location = input()
+
+
+
+    newPlace.name = name
+    newPlace.rulers = rulers
+    newPlace.location = location
+    newPlace.save()
+
+    if placeList:
+        placeList.append(newPlace)
+    else:
+        placeList = []
+        placeList.append(newPlace)
+
+    return newPlace
 
 def CreateHouse(passedData = None):
 
@@ -145,11 +267,28 @@ def CreateHouse(passedData = None):
 
         print(f"{bcolors.BOLD}What is house " + houseName + "'s sigil? {bcolors.ENDC}")
         houseSigil = input()
-
         print(f'{bcolors.BOLD}What seat does house ' + houseName + ' hold? {bcolors.ENDC}')
-        houseSeat = input()
+        seatInput = input()
 
-        print(f'{bcolors.BOLD}Who is the Lord of house ' + houseName + '? {bcolors.ENDC}')
+
+        #Find place to assign from list
+        houseSeat = None
+        for place in placeList:
+            if place.name == seatInput:
+                houseSeat = place.name
+                break
+    
+        #If no place exists, prompt for creation
+        if not houseSeat:
+            print(seatInput + " does not exist, would you like to create it?")
+            yesNo = input()
+            if yesNo.lower() == 'yes' or yesNo.lower() == 'y':
+                #Assign house seat to the newly created house
+                newPlace = CreatePlace({"name": seatInput, "rulers": houseName})
+                houseSeat = newPlace.name
+            else:
+                houseSeat = "Unknown"
+
 
         #Find all noble characters with the house name
         nobleList = []
@@ -159,25 +298,30 @@ def CreateHouse(passedData = None):
             if lastName.lower() == houseName.lower():
                 nobleList.append(character)
 
-        #Print all characters in noble list
-        for index, character in enumerate(nobleList):
-            print('[' + str(index + 1) + '] ' + character.name.title())
-            
-        
-        #print('[0] New Character')
-        userInput = input()
+        #Print all characters in noble list with last name of house, if any
 
-        houseLord = nobleList[int(userInput) - 1].name
+        print(f'{bcolors.BOLD}Who is the Lord of house ' + houseName + '? {bcolors.ENDC}')
+        if len(nobleList) == 0:
+            print("No current characters belong to this house")
+            houseLord = input()
+        else:
+            for index, character in enumerate(nobleList):
+                print('[' + str(index + 1) + '] ' + character.name.title())
+            userInput = input()
+            houseLord = nobleList[int(userInput) - 1].name
 
 
+    #Output values into object
     newHouse.name = houseName
     newHouse.royal = royal
     newHouse.sigil = houseSigil
     newHouse.seat = houseSeat
     newHouse.lord = houseLord
 
+    #Save object to file
     newHouse.save()
 
+    #Append new house to local list
     if houseList:
         houseList.append(newHouse)
     else:
@@ -239,7 +383,7 @@ def CreateCharacter():
 
     print(f'{bcolors.BOLD}What title does ' + name + ' hold? {bcolors.ENDC}')
     for index, job in enumerate(jobsList):
-        print('[' + str(index + 1) + '] ' + job)
+        print('[' + str(index + 1) + '] ' + job["title"])
 
     userInput = input()
     title = jobsList[int(userInput) - 1]

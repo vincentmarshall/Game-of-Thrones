@@ -1,28 +1,17 @@
 [
     {
-        "name": "Freelancers",
-        "sigil": "Nothing",
-        "seat": "Nowhere",
-        "lord": "Nobody",
+        "name": "gg",
+        "sigil": "gg",
+        "seat": "gg",
+        "lord": "gg",
         "royal": false,
         "members": []
     },
     {
         "name": "Lannister",
-        "sigil": "golden lion",
-        "seat": "casterley rock",
-        "lord": "tywin",
-        "royal": true,
-        "members": [
-            "Tywin Lannister",
-            "Tyrion Lannister"
-        ]
-    },
-    {
-        "name": "Marshall",
-        "sigil": "f",
-        "seat": "f",
-        "lord": "yvonne marshall",
+        "sigil": "Golden Lion",
+        "seat": "Casterly Rock",
+        "lord": "Tywin Lannister",
         "royal": true,
         "members": []
     }

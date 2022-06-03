@@ -23,6 +23,7 @@ class Character():
             self.allegiance = defaultValues['allegiance']
             self.title = defaultValues['title']
             self.traits = defaultValues['traits']
+
     def save(self):
         isEmpty = os.stat(char_file).st_size == 0
         newCharacter = self.__dict__
@@ -40,6 +41,7 @@ class Character():
 
             with open(char_file, "w") as fp:
                 json.dump(list, fp, indent=4)
+
     def delete(self):
         deleteIndex = None
 
@@ -56,6 +58,7 @@ class Character():
             json.dump(list, fp, indent=4)
         
         return True
+
     def update(self, changeVal, newVal):
         changeVal = changeVal.lower()
         toChange = getattr(self, changeVal)
@@ -74,10 +77,13 @@ class Character():
             json.dump(list, fp, indent=4)
 
         return True
+    
+    
 
     #Supplementary Character Functions
 
-    
+    def isNoble(self):
+        print(self.title)
 def importCharacters():
     print('Importing Characters')
 

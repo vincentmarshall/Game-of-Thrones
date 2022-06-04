@@ -3,6 +3,7 @@
         "name": "Tywin Lannister",
         "allegiance": "",
         "title": "Hand of the King",
+        "location": "Winterfell",
         "traits": {
             "strength": 15,
             "dextarity": 0,
@@ -15,6 +16,7 @@
         "name": "Yvonne Marshall",
         "allegiance": "",
         "title": "Queen",
+        "location": "Winterfell",
         "traits": {
             "strength": 0,
             "dextarity": 0,
@@ -27,6 +29,7 @@
         "name": "Tyrion Lannister",
         "allegiance": "",
         "title": "Hand of the King",
+        "location": "Casterley Rock",
         "traits": {
             "strength": 0,
             "dextarity": 0,

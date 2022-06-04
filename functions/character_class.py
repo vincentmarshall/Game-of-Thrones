@@ -1,3 +1,4 @@
+from email.policy import default
 import json
 import os
 
@@ -11,6 +12,7 @@ class Character():
             self.name = ""
             self.allegiance = ""
             self.title = ""
+            self.location = ""
             self.traits = {
                 'strength' : 0,
                 'dextarity' : 0,
@@ -22,6 +24,7 @@ class Character():
             self.name = defaultValues['name']
             self.allegiance = defaultValues['allegiance']
             self.title = defaultValues['title']
+            self.location = defaultValues['location']
             self.traits = defaultValues['traits']
 
     def save(self):

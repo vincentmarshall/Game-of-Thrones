@@ -62,21 +62,22 @@ def MainMenu():
 
 def GameMenu():
 
+    ClearConsole()
+
     global userCharacter
 
     optionList = [
-        
         {'name': 'Display Houses', 'active': True, 'func': PrintHouseNames},
         {'name': 'Display Characters','active': True, 'func': PrintCharacterNames},
         {'name': 'Select Character','active': True, 'func': SelectCharacter},
-        {'name': 'ADMIN MENU','active': True, 'func': AdminMenu},
-        
+        {'name': 'ADMIN MENU','active': True, 'func': AdminMenu},        
     ]
 
     if userCharacter:
         print('You are currently ' + userCharacter.name)
     else:
         SelectCharacter()
+
     print(f'{bcolors.OKCYAN}-----------------GAME MENU-----------------\n{bcolors.ENDC}')
     print(f'{bcolors.BOLD}What would you like to do?\n{bcolors.ENDC}')
 
@@ -84,22 +85,25 @@ def SelectCharacter():
 
     global userCharacter
 
-    PrintCharacterNames()
+    #PrintCharacterNames()
 
     print('Which character would you like to select?')
+    for index, character in enumerate(characterList):
+        print('[' + str(index + 1) + '] ' + character.name)
+        for trait in character.traits:
+            print('   |_ ' + trait + ': ' + str(character.traits[trait]))
     optionInput = input()
 
-    for character in characterList:
-        if character.name == optionInput:
-            userCharacter = character
+    userCharacter = characterList[int(optionInput) - 1]
 
     GameMenu()
 
 def AdminMenu():
 
+    ClearConsole()
+
     option = None
 
-   
     optionList = [
         
         {'name': 'Create House','active': True, 'func': CreateHouse},
@@ -164,7 +168,7 @@ def PrintCharacterNames():
     else:
         print('There are no characters created yet.')
 
-    return
+    MainMenu()
 
 def PrintPlaces():
 
@@ -387,6 +391,8 @@ def CreateCharacter():
 
     userInput = input()
     title = jobsList[int(userInput) - 1]
+
+    print(f'{bcolors.BOLD}Where is ' + name + ' currently?{bcolors.ENDC}')
 
     ClearConsole()
 

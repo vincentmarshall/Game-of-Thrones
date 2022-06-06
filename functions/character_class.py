@@ -80,8 +80,16 @@ class Character():
             json.dump(list, fp, indent=4)
 
         return True
-    
-    
+
+    def getValues(self):
+
+        valueList = {}
+        valueList['name'] = self.name
+        valueList['title'] = self.title['title']
+        valueList['location'] = self.location
+        valueList['traits'] = self.traits
+
+        return valueList
 
     #Supplementary Character Functions
 

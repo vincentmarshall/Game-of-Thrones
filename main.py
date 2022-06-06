@@ -67,31 +67,42 @@ def GameMenu():
     global userCharacter
 
     optionList = [
-        {'name': 'Display Houses', 'active': True, 'func': PrintHouseNames},
-        {'name': 'Display Characters','active': True, 'func': PrintCharacterNames},
-        {'name': 'Select Character','active': True, 'func': SelectCharacter},
-        {'name': 'ADMIN MENU','active': True, 'func': AdminMenu},        
+        {'name': 'Travel', 'active': True, 'func': GameMenu},
+        {'name': 'Fight','active': True, 'func': GameMenu},
+        {'name': 'Gamble','active': True, 'func': GameMenu},        
+        {'name': 'Sleep','active': True, 'func': GameMenu},
     ]
 
-    if userCharacter:
-        print('You are currently ' + userCharacter.name)
-    else:
-        SelectCharacter()
+    if not userCharacter: SelectCharacter()
+
+    #Print user profile
+    print(f'{bcolors.OKCYAN}-----------------PROFILE-----------------\n{bcolors.ENDC}')
+    PrintCharacterNames(userSelf = True)
+    
+    #Print game menu functions
+
 
     print(f'{bcolors.OKCYAN}-----------------GAME MENU-----------------\n{bcolors.ENDC}')
     print(f'{bcolors.BOLD}What would you like to do?\n{bcolors.ENDC}')
+
+    for index, option in enumerate(optionList):
+        print('[' + str(index + 1) + '] ' + option['name'])
 
 def SelectCharacter():
 
     global userCharacter
 
-    #PrintCharacterNames()
+    ClearConsole()
 
     print('Which character would you like to select?')
     for index, character in enumerate(characterList):
         print('[' + str(index + 1) + '] ' + character.name)
+        print('    Currently in ' + character.location)
+        print('    Traits:')
         for trait in character.traits:
-            print('   |_ ' + trait + ': ' + str(character.traits[trait]))
+            print('    |_ ' + trait + ': ' + str(character.traits[trait]))
+        print('\n')
+
     optionInput = input()
 
     userCharacter = characterList[int(optionInput) - 1]
@@ -152,15 +163,27 @@ def PrintHouseNames():
     else:
         print('There are no houses created yet.')
 
-    return
+    MainMenu()
     
-def PrintCharacterNames():
+def PrintCharacterNames(userSelf = False):
 
     ClearConsole()
+    if userSelf:
+        print(userCharacter.name.title())
+        print('Location: ' + userCharacter.location.title())
+        print('Traits:')
+        for trait in userCharacter.traits:
+            print('|_ ' + trait + ': ' + str(userCharacter.traits[trait]))
 
-    if characterList != None:
+        print('\n')
+
+        return
+
+    elif characterList != None:
         for character in characterList:
             print(character.name.title())
+            print('Location: ' + character.location.title())
+            print('Traits:')
             for trait in character.traits:
                 print('|_ ' + trait + ': ' + str(character.traits[trait]))
 
@@ -189,7 +212,6 @@ def CreatePlace(passedData = None):
     newPlace = place_class.Place()
 
     if passedData:
-        print('not set up yet')
         name = passedData["name"]
         rulers = passedData["rulers"]
         print("Where is " + name)
@@ -242,11 +264,24 @@ def CreateHouse(passedData = None):
             print(f'{bcolors.BOLD}Who is the Lord of house ' + houseName + '? {bcolors.ENDC}')
             houseLord = input()
         
+        print(f"{bcolors.BOLD}Is house " + houseName + " a royal house?{bcolors.ENDC}")
+        yesNo = input()
+
+        if yesNo.lower() == 'y' or yesNo.lower() == 'yes':
+            royal = True
+        else:
+            royal = False
+
         print(f"{bcolors.BOLD}What is house " + houseName + "'s sigil? {bcolors.ENDC}")
         houseSigil = input()
 
         print(f'{bcolors.BOLD}What seat does house ' + houseName + ' hold? {bcolors.ENDC}')
-        houseSeat = input()
+        for index, place in enumerate(placeList):
+            print('[' + str(index + 1) + '] ' + place.name)
+
+        userInput = input()
+
+        houseSeat = placeList[int(userInput) - 1].name
         
     else:
         newHouse = house_class.House()
@@ -271,28 +306,23 @@ def CreateHouse(passedData = None):
 
         print(f"{bcolors.BOLD}What is house " + houseName + "'s sigil? {bcolors.ENDC}")
         houseSigil = input()
-        print(f'{bcolors.BOLD}What seat does house ' + houseName + ' hold? {bcolors.ENDC}')
-        seatInput = input()
+        print(f'{bcolors.BOLD}Please select a seat for House ' + houseName + ' or, enter a new seat to be created. {bcolors.ENDC}')
+        for index, place in enumerate(placeList):
+            print('[' + str(index + 1) + '] ' + place.name)
+
+        userInput = input()
 
 
         #Find place to assign from list
         houseSeat = None
-        for place in placeList:
-            if place.name == seatInput:
-                houseSeat = place.name
-                break
     
         #If no place exists, prompt for creation
-        if not houseSeat:
-            print(seatInput + " does not exist, would you like to create it?")
-            yesNo = input()
-            if yesNo.lower() == 'yes' or yesNo.lower() == 'y':
-                #Assign house seat to the newly created house
-                newPlace = CreatePlace({"name": seatInput, "rulers": houseName})
-                houseSeat = newPlace.name
-            else:
-                houseSeat = "Unknown"
-
+        if userInput.isnumeric():
+            houseSeat = placeList[int(userInput) - 1].name
+        else:
+            newPlace = CreatePlace({"name": userInput, "rulers": houseName})
+            houseSeat = newPlace.name
+            houseSeat = "Unknown"
 
         #Find all noble characters with the house name
         nobleList = []
@@ -307,7 +337,7 @@ def CreateHouse(passedData = None):
         print(f'{bcolors.BOLD}Who is the Lord of house ' + houseName + '? {bcolors.ENDC}')
         if len(nobleList) == 0:
             print("No current characters belong to this house")
-            houseLord = input()
+            houseLord = "Unknown"
         else:
             for index, character in enumerate(nobleList):
                 print('[' + str(index + 1) + '] ' + character.name.title())
@@ -332,7 +362,7 @@ def CreateHouse(passedData = None):
         houseList = []
         houseList.append(newHouse)
 
-    return
+    return newHouse
 
 def CreateCharacter():
 
@@ -385,6 +415,7 @@ def CreateCharacter():
                     houseObj = house
                     break
 
+    #Prompt for title
     print(f'{bcolors.BOLD}What title does ' + name + ' hold? {bcolors.ENDC}')
     for index, job in enumerate(jobsList):
         print('[' + str(index + 1) + '] ' + job["title"])
@@ -392,7 +423,12 @@ def CreateCharacter():
     userInput = input()
     title = jobsList[int(userInput) - 1]
 
+    #Prompt for location
     print(f'{bcolors.BOLD}Where is ' + name + ' currently?{bcolors.ENDC}')
+    for index, value in enumerate(placeList):
+        print('[' + str(index + 1) + '] ' + value.name)
+    userInput = input()
+    location = placeList[int(userInput) - 1].name
 
     ClearConsole()
 
@@ -421,6 +457,7 @@ def CreateCharacter():
 
     newCharacter.name = name
     newCharacter.title = title
+    newCharacter.location = location
 
     newCharacter.save()
 
@@ -432,6 +469,10 @@ def CreateCharacter():
 def EditHouse():
 
     ClearConsole()
+
+    if len(houseList) < 1:
+        print("There are no houses to edit.")
+        return
 
     index = 1
     option = None
@@ -471,6 +512,14 @@ def EditHouse():
             confirmInput = input()
             if confirmInput == houseEdit.name:
                 success = houseEdit.delete()
+
+                #Remove from local list
+                if success:
+                    for index, house in enumerate(houseList):
+                        if house.name == houseEdit.name:
+                            houseList.pop(index)
+                            break
+
             elif confirmInput == '0':
                 success = False
                 break
@@ -491,6 +540,10 @@ def EditHouse():
 def EditCharacter(passedData = None):
 
     ClearConsole()
+
+    if len(characterList) < 1:
+        print('There are no characters to edit.')
+        return
 
     index = 1
     #option = None
@@ -553,8 +606,11 @@ def EditCharacter(passedData = None):
                 for house in houseList:
                     if str(house.name.lower()) == str(nameSplit[1].lower()):
                         charHouse = house
+                    else:
+                        charHouse = None
                 
-                charHouse.updateMembers(memberName = characterEdit.name, remove = True)
+                if charHouse:
+                    charHouse.updateMembers(memberName = characterEdit.name, remove = True)
                 
             return success
             

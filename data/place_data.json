@@ -23,5 +23,15 @@
         "name": "gg",
         "rulers": "gg",
         "location": "gg"
+    },
+    {
+        "name": "g's spot",
+        "rulers": "g",
+        "location": "g street"
+    },
+    {
+        "name": "Kings Landing",
+        "rulers": "Lannister",
+        "location": "The CrownLands"
     }
 ]

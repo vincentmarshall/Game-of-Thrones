@@ -1,41 +1,50 @@
 [
     {
-        "name": "Tywin Lannister",
+        "name": "Vincent Marshall",
         "allegiance": "",
-        "title": "Hand of the King",
-        "location": "Winterfell",
+        "title": {
+            "title": "King",
+            "noble": true
+        },
+        "location": "",
         "traits": {
-            "strength": 15,
+            "strength": 120,
             "dextarity": 0,
-            "intelligence": 5,
-            "wisdom": 65,
-            "charisma": 35
-        }
-    },
-    {
-        "name": "Yvonne Marshall",
-        "allegiance": "",
-        "title": "Queen",
-        "location": "Winterfell",
-        "traits": {
-            "strength": 0,
-            "dextarity": 0,
-            "intelligence": 120,
+            "intelligence": 0,
             "wisdom": 0,
             "charisma": 0
         }
     },
     {
-        "name": "Tyrion Lannister",
+        "name": "Yvonne Goduco",
         "allegiance": "",
-        "title": "Hand of the King",
-        "location": "Casterley Rock",
+        "title": {
+            "title": "Queen",
+            "noble": true
+        },
+        "location": "Winterfell",
         "traits": {
             "strength": 0,
             "dextarity": 0,
             "intelligence": 0,
             "wisdom": 120,
             "charisma": 0
+        }
+    },
+    {
+        "name": "Tywin Lannister",
+        "allegiance": "",
+        "title": {
+            "title": "Hand of the King",
+            "noble": true
+        },
+        "location": "Kings Landing",
+        "traits": {
+            "strength": 5,
+            "dextarity": 0,
+            "intelligence": 50,
+            "wisdom": 50,
+            "charisma": 15
         }
     }
 ]

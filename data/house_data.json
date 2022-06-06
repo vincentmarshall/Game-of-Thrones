@@ -1,11 +1,23 @@
 [
     {
-        "name": "gg",
-        "sigil": "gg",
-        "seat": "gg",
-        "lord": "gg",
-        "royal": false,
-        "members": []
+        "name": "Marshall",
+        "sigil": "dog",
+        "seat": "the east",
+        "lord": "Vincent Marshall",
+        "royal": true,
+        "members": [
+            "Vincent Marshall"
+        ]
+    },
+    {
+        "name": "Goduco",
+        "sigil": "wolf",
+        "seat": "the west",
+        "lord": "nobody",
+        "royal": true,
+        "members": [
+            "Yvonne Goduco"
+        ]
     },
     {
         "name": "Lannister",
@@ -13,6 +25,8 @@
         "seat": "Casterly Rock",
         "lord": "Tywin Lannister",
         "royal": true,
-        "members": []
+        "members": [
+            "Tywin Lannister"
+        ]
     }
 ]
